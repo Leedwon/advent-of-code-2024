@@ -43,3 +43,7 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Advent of code resources ###
+/src/main/resources/
+/src/test/resources/
