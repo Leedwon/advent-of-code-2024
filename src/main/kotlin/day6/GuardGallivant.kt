@@ -76,40 +76,7 @@ fun solveDay62(fileName: String): Int {
     }
 
     var loops = 0
-
-    // right now we play every simulation over and over - but they usually only differ by one square
-    // we should be smarter and use some memory for it to skip moves
-    // probably for starters even using only original map would be enough
-
-    for (position in potentialObstaclePositions) {
-        if (position == initialGuardPosition) continue
-        val mapForSimulation = labMapFrom(originalMap)
-        mapForSimulation.squares[initialGuardPosition] =
-            Square.Guard(direction = 0 to -1) // deep copy is too much hassle since LabMap and Guard has a lot of mutable factors
-        mapForSimulation.squares[position] = Square.Blocked
-        if (mapForSimulation.runSimulation() == MoveResult.InLoop) {
-            loops++
-        }
-    }
-
-    return loops
-}
-
-fun solveDay62BruteForce(fileName: String): Int {
-    val originalMap = buildMap(readFileLines(fileName))
-    val initialGuardPosition = originalMap.squares.keys.first { originalMap.squares[it] is Square.Guard }
-
-    val mapForMoves = labMapFrom(originalMap)
-
-    mapForMoves.runSimulation()
-
-    val potentialObstaclePositions = mapForMoves.squares.keys.filter {
-        val square = mapForMoves.squares[it]
-        square is Square.Moved || square is Square.Guard
-    }
-
-    var loops = 0
-
+    
     for (position in potentialObstaclePositions) {
         if (position == initialGuardPosition) continue
         val mapForSimulation = labMapFrom(originalMap)
